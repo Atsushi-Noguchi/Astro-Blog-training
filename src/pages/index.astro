@@ -1,18 +1,22 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
+import { getBlogs } from "../libs/microcms";
+
+const response = await getBlogs({ fields: ["id", "title"] });
 ---
 
 <Layout title="Astro.Blog">
   <main>
     <h1>Astro Blog</h1>
     <ul>
-      <li>
-        <a href="">📝Astro Blogを立ち上げました。</a>
-      </li>
-      <li>
-        <a href="">📝二回目の投稿です。</a>
-      </li>
+      {
+        response.contents.map((blog: any) => (
+          <li>
+            <a href={blog.id}>📝{blog.title}</a>
+          </li>
+        ))
+      }
     </ul>
   </main>
 </Layout>
